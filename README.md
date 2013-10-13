@@ -1,16 +1,27 @@
 iCalForce
 =========
 
-iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "Event" via Google calendar, Outlook.com,...
+iCalendar (.ics) exporter for Salesforce/Force.com.  
 
-supported Salesforce/Force.com editions: EE, UE, DE
+You can watch Salesforce's "Event" via
+Google calendar, Outlook.com, etc... by subscribing calendar URL.  
+You can also import calendar to Microsoft Outlook.
 
+**supported client:**
+  * Google calendar
+  * Outlook.com
+  * Microsoft Outlook
+
+**supported Salesforce/Force.com editions: EE, UE, DE**
+
+----
 ### contents
   * [Setup](#setup)
   * [Security Enhancement](#security-enhancement)
     * [White-List](#white-list)
     * [Salesforce sharing configurations](#salesforce-sharing-configurations)
 
+----
 # Setup
 
   1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
