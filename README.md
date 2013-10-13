@@ -5,6 +5,11 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
 
 supported Salesforce/Force.com editions: EE, UE, DE
 
+### contents
+  * [Setup](#setup)
+  * [Security Enhancement](#security-enhancement)
+    * [White-List](#white-list)
+    * [Salesforce sharing configurations](#salesforce-sharing-configurations)
 
 # Setup
 
