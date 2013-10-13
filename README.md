@@ -3,6 +3,9 @@ iCalForce
 
 iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "Event" via Google calendar, Outlook.com,...
 
+supported Salesforce/Force.com editions: EE, UE, DE
+
+
 # Setup
 
   1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
@@ -19,7 +22,7 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
   1. Set server variables
     * **USERNAME** - Salesforce account's login name.
     * **PASSWORD** - Salesforce account's concatenated login pasword + security token.  
-      if password is XXXX and security token is YYYY, you should set PASSWORD xxxxyyyy.
+      if password is XXXX and security token is YYYY, you should set PASSWORD XXXXYYYY.
     * **OWNERID** - 15 chars ID of User. it is used when url parameter is omitted.
     * **BASEURL** - base url of your org. default value (if you don't set) is  
       https://ap1.salesforce.com
@@ -46,6 +49,15 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
 
   1. Set website's root **iCalForce.repo/iCalForce/public_html**.
 
+    **httpd.conf (apache)**
+    ```httpd.conf
+    ...
+    DocumentRoot "/path/to/iCalForce.repo/iCalForce/public_html"
+    <Directory "/path/to/iCalForce.repo/iCalForce/public_html">
+        ...
+    </Directory>
+    ...
+    ```
     **nginx.conf (nginx)**
     ```nginx.conf
     server {
