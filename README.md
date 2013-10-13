@@ -5,7 +5,7 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
 
 # Setup
 
-  1. Download iCalForce from https://github.com/qnq777/iCalForce.git/iCalForce.
+  1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
      ```shell
      $ git clone https://github.com/qnq777/iCalForce.git iCalForce.repo
      ```
@@ -24,13 +24,13 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
     * **BASEURL** - base url of your org. default value (if you don't set) is  
       https://ap1.salesforce.com
 
-    httpd.conf (apache)
+    **httpd.conf (apache)**
     ```httpd.conf
     SetEnv USERNAME alice@example.com
     SetEnv PASSWORD passSecuritytoken
     SetEnv OWNERID  002i1234567Zz7P
     ```
-    nginx.conf (nginx)
+    **nginx.conf (nginx)**
     ```nginx.conf
     server {
         ...
@@ -46,7 +46,7 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
 
   1. Set website's root **iCalForce.repo/iCalForce/public_html**.
 
-    nginx.conf (nginx)
+    **nginx.conf (nginx)**
     ```nginx.conf
     server {
         ...
@@ -55,6 +55,52 @@ iCalendar (.ics) exporter for Salesforce/Force.com. You can watch Salesforce's "
     }
     ```
 
-  1. a
+  1. reboot (or reload config) web server.
+
+  1. access the url
+
+    ```
+    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    ```
 
 # Security Enhancement
+
+To use safely, we recommend that you set the optional security configrations.
+
+## White-List
+
+### Generate white-list automatically
+  1. Add custom checkbox field **"UseICalForce__c"** to **User** standard object.
+  
+  1. Set **UseICalForce__c** = true if the user is permitted to use this app.
+
+  1. Edit **iCalForce.repo/iCalForce/icalforce/run-create-whitelist.sh**  
+     and overwrite USERNAME, PASSWORD.
+     ```shell
+     #!/bin/bash
+     env \
+       USERNAME='alice@example.com' \
+       PASSWORD='passSecuritytoken' \
+       php create-whitelist.php > whitelist.php
+     ```
+
+  1. Run command
+     ```shell
+     $ cd iCalForce.repo/iCalForce/icalforce
+     $ bash ./run-create-whitelist.sh
+     ```
+
+## Salesforce sharing configurations
+We recommend that you create a **dedicated account** for this app  
+and configure sharing and access control settings.
+
+  * define dedicated account.
+  * define dedicated user profile for the dedicated account.
+  * allow api access.
+  * limit accessible object by using user profile.  
+    you should
+    * allow **"View all data"** about User, Event.
+    * disallow **"view"** about the others.
+    * disallow **"edit/deelete"** all objects.
+  * limit accessible fields by defining **field-level security**.
+
