@@ -25,13 +25,13 @@ You can also import calendar to Microsoft Outlook.
 # Setup
 
   1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
-     ```shell
+     ```bash
      $ git clone https://github.com/qnq777/iCalForce.git iCalForce.repo
      ```
      or download Zip file from [here](https://github.com/qnq777/iCalForce/archive/master.zip).
 
   1. Run setup script.
-     ```shell
+     ```bash
      $ cd iCalForce.repo/iCalForce
      $ bash ./setup.sh
      ```
@@ -44,13 +44,13 @@ You can also import calendar to Microsoft Outlook.
       https://ap1.salesforce.com
 
     **httpd.conf (apache)**
-    ```httpd.conf
+    ```apache
     SetEnv USERNAME alice@example.com
     SetEnv PASSWORD passSecuritytoken
     SetEnv OWNERID  002i1234567Zz7P
     ```
     **nginx.conf (nginx)**
-    ```nginx.conf
+    ```nginx
     server {
         ...
         location ~ \.php(/|$) {
@@ -66,7 +66,7 @@ You can also import calendar to Microsoft Outlook.
   1. Set website's root **iCalForce.repo/iCalForce/public_html**.
 
     **httpd.conf (apache)**
-    ```httpd.conf
+    ```apache
     ...
     DocumentRoot "/path/to/iCalForce.repo/iCalForce/public_html"
     <Directory "/path/to/iCalForce.repo/iCalForce/public_html">
@@ -75,7 +75,7 @@ You can also import calendar to Microsoft Outlook.
     ...
     ```
     **nginx.conf (nginx)**
-    ```nginx.conf
+    ```nginx
     server {
         ...
         root /path/to/iCalForce.repo/iCalForce/public_html;
@@ -104,7 +104,7 @@ To use safely, we recommend that you set the optional security configrations.
 
   1. Edit **iCalForce.repo/iCalForce/icalforce/run-create-whitelist.sh**  
      and overwrite USERNAME, PASSWORD.
-     ```shell
+     ```bash
      #!/bin/bash
      env \
        USERNAME='alice@example.com' \
@@ -113,7 +113,7 @@ To use safely, we recommend that you set the optional security configrations.
      ```
 
   1. Run command
-     ```shell
+     ```bash
      $ cd iCalForce.repo/iCalForce/icalforce
      $ bash ./run-create-whitelist.sh
      ```
