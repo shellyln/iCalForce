@@ -28,13 +28,13 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
 # <a name="setup"> 導入方法
 
   1. iCalForce を https://github.com/qnq777/iCalForce.git からダウンロードする。
-     ```shell
+     ```bash
      $ git clone https://github.com/qnq777/iCalForce.git iCalForce.repo
      ```
      または、[Zipで](https://github.com/qnq777/iCalForce/archive/master.zip) ダウンロードする。
 
   1. セットアップのスクリプトを実行する。
-     ```shell
+     ```bash
      $ cd iCalForce.repo/iCalForce
      $ bash ./setup.sh
      ```
@@ -47,13 +47,13 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
       https://ap1.salesforce.com
 
     **httpd.conf (apache)**
-    ```httpd.conf
+    ```apache
     SetEnv USERNAME alice@example.com
     SetEnv PASSWORD passSecuritytoken
     SetEnv OWNERID  002i1234567Zz7P
     ```
     **nginx.conf (nginx)**
-    ```nginx.conf
+    ```nginx
     server {
         ...
         location ~ \.php(/|$) {
@@ -69,7 +69,7 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
   1. webサイトのルートを **iCalForce.repo/iCalForce/public_html** にする。
 
     **httpd.conf (apache)**
-    ```httpd.conf
+    ```apache
     ...
     DocumentRoot "/path/to/iCalForce.repo/iCalForce/public_html"
     <Directory "/path/to/iCalForce.repo/iCalForce/public_html">
@@ -78,7 +78,7 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
     ...
     ```
     **nginx.conf (nginx)**
-    ```nginx.conf
+    ```nginx
     server {
         ...
         root /path/to/iCalForce.repo/iCalForce/public_html;
@@ -107,7 +107,7 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
 
   1. **iCalForce.repo/iCalForce/icalforce/run-create-whitelist.sh**を編集。  
      USERNAME, PASSWORD を書き換える。
-     ```shell
+     ```bash
      #!/bin/bash
      env \
        USERNAME='alice@example.com' \
@@ -116,7 +116,7 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
      ```
 
   1. コマンドを実行する
-     ```shell
+     ```bash
      $ cd iCalForce.repo/iCalForce/icalforce
      $ bash ./run-create-whitelist.sh
      ```
