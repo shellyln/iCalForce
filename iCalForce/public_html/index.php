@@ -5,7 +5,11 @@
 
 $USERNAME = $_SERVER['USERNAME'];
 $PASSWORD = $_SERVER['PASSWORD'];
-$OWNERID  = $_SERVER['OWNERID'];
+
+$OWNERID  = '123456789012345';
+if (isset($_SERVER['OWNERID'])) {
+  $OWNERID  = $_SERVER['OWNERID'];
+}
 
 $BASEURL = 'https://ap1.salesforce.com';
 if (isset($_SERVER['BASEURL'])) {
@@ -18,17 +22,46 @@ require_once (SOAP_CLIENT_BASEDIR.'/SforceEnterpriseClient.php');
 require_once ('../icalforce/whitelist.php');
 
 
-if (isset($_GET['u'])) {
-  $OWNERID = $_GET['u'];
+if (isset($_GET['t'])) {
+  if (! isset($ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1)) {
+    header('HTTP/1.1 403 Forbidden');
+    echo 'no whitelist exists';
+    exit();
+  }
+  
+  unset($OWNERID);
+  foreach ($ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1 as $uid => $rec) {
+    if ($_GET['t'] == $rec['pub-token']) {
+      $OWNERID = $uid;
+      break;
+    }
+  }
+  if (! isset($OWNERID)) {
+    header('HTTP/1.1 403 Forbidden');
+    echo 'bad pub token';
+    exit();
+  }
+} else {
+  if (isset($_GET['u'])) {
+    $OWNERID = $_GET['u'];
+  }
+  
   if (! preg_match('/^[A-Za-z0-9]{15}$/', $OWNERID)) {
-    throw new Exception('bad id');
+    header('HTTP/1.1 403 Forbidden');
+    echo 'bad id';
+    exit();
+  }
+  
+  // checking whitelist.
+  if (isset($ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1)) {
+    if (! array_key_exists($OWNERID, $ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1)) {
+      header('HTTP/1.1 403 Forbidden');
+      echo 'disallowed';
+      exit();
+    }
   }
 }
-if (isset($ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1)) {
-  if (! array_key_exists($OWNERID, $ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1)) {
-    throw new Exception('bad id');
-  }
-}
+
   
 
 function printSfiCalendar($userName, $pass, $ownerId, $baseUrl) {
@@ -74,6 +107,12 @@ function printSfiCalendar($userName, $pass, $ownerId, $baseUrl) {
     
     $query = 'SELECT Id, Name, TimeZoneSidKey from User where Id = \'' . $ownerId . '\'';
     $users = $mySforceConnection->query(($query));
+    
+    if (count($users->records) == 0) {
+      header('HTTP/1.1 403 Forbidden');
+      echo 'no data';
+      exit();
+    }
     
     $query = '
 SELECT
@@ -142,6 +181,7 @@ order by StartDateTime limit 10000';
     echo "END:VCALENDAR\r\n";
   } catch (Exception $e) {
     echo $e;
+    exit();
   }
 }
 
