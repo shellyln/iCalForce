@@ -17,12 +17,19 @@ You can also import calendar to Microsoft Outlook.
 
 ----
 ### contents
+  * [Warning](#warning)
   * [Setup](#setup)
   * [Security Enhancement](#security-enhancement)
+    * [Don't set 'OWNERID'](#dont-set-ownerid)
     * [White-List](#white-list)
     * [Salesforce sharing configurations](#salesforce-sharing-configurations)
 
 ----
+# Warning
+  * This app don't have any user auth mechanism.  
+    To keep calendar secret, you should the calendar url secret.  
+    And if it is suspected that url is leaked, it is necessary to change the url immediately.
+
 # Setup
 
   1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
@@ -96,7 +103,19 @@ You can also import calendar to Microsoft Outlook.
 
 To use safely, we recommend that you set the optional security configrations.
 
+## Don't set 'OWNERID'.
+
+You can allow accessing the app root path by setting 'OWNERID'.
+```
+https://theapp.your.domain.com/
+```
+It is permanent url and you can't change it.  
+By leaking of the url, you can't continue the service  
+if you want to keep the calendar secret.
+
 ## White-List
+
+You can restrict access the app to listed users.
 
 ### Generate white-list automatically
   1. Add custom checkbox field **"UseICalForce__c"** to **User** standard object.
@@ -118,6 +137,26 @@ To use safely, we recommend that you set the optional security configrations.
      $ cd iCalForce.repo/iCalForce/icalforce
      $ bash ./run-create-whitelist.sh
      ```
+
+  1. and access the url
+
+    ```
+    https://theapp.your.domain.com?t=userPublicToken
+    ```
+or
+    ```
+    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    ```
+
+**userPublicToken** is written in **whitelist.php** as follows:
+```php
+  '15charsCaseSensitiveUserId' => array('pub-token' => 'userPublicToken'),
+```
+
+**We recomend using 't=userPublicToken' style url.**  
+'u=15charsCaseSensitiveUserId' style url is permanent url and you can't change it.  
+By leaking of the url, you can't continue the service  
+if you want to keep the calendar secret.
 
 ## Salesforce sharing configurations
 We recommend that you create a **dedicated account** for this app  
