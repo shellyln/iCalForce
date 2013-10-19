@@ -15,6 +15,10 @@ You can also import calendar to Microsoft Outlook.
 
 **supported Salesforce/Force.com editions: EE, UE, DE**
 
+**key features**
+  * Export as iCalendar (.ics) format
+  * Whitelist access restriction
+
 ----
 ### contents
   * [Warning](#warning)
