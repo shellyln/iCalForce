@@ -14,17 +14,25 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
   * Google calendar
   * Outlook.com
   * Microsoft Outlook
+  * その他の ics 形式を読み込める、カレンダーアプリ (e.g. iCal, tb+lightning, ...)
 
 **サポートする Salesforce/Force.com のエディション: EE, UE, DE**
 
 ----
 ### 目次
+  * [注意](#warning)
   * [導入方法](#setup)
   * [Security Enhancement](#security-enhancement)
+    * ['OWNERID'を設定しない](#dont-set-owner-id)
     * [White-List](#white-list)
     * [Salesforce sharing configurations](#salesforce-sharing-configurations)
 
 ----
+# <a name="warning"> 注意
+  * 本アプリはユーザー認証の仕組みを持っていません。.  
+    カレンダーを秘密に保つためには、カレンダーのURLを秘密にする必要があります。  
+    カレンダーのURLが漏れた可能性がある場合は、速やかにカレンダーのURLを変更する必要があります。
+
 # <a name="setup"> 導入方法
 
   1. iCalForce を https://github.com/qnq777/iCalForce.git からダウンロードする。
@@ -98,6 +106,15 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
 
 安全に利用するために, 追加のセキュリティー設定をすることを推奨します。
 
+## <a name="#dont-set-ownerid"> 'OWNERID'を設定しない
+
+'OWNERID'を設定すると、アプリのルートパスでアクセスさせることができます。
+```
+https://theapp.your.domain.com/
+```
+このURLは恒久的なので、変えることができません。  
+従って、URLが漏れた際にカレンダーを秘密にしたまま、サービスを継続できません。
+
 ## <a name="#white-list"> ホワイト・リスト
 
 ### ホワイト・リストの自動生成
@@ -120,6 +137,26 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
      $ cd iCalForce.repo/iCalForce/icalforce
      $ bash ./run-create-whitelist.sh
      ```
+     ```
+
+  1. URLにアクセスする
+
+    ```
+    https://theapp.your.domain.com?t=userPublicToken
+    ```
+または
+    ```
+    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    ```
+
+**userPublicToken** は、 **whitelist.php** に次のとおり書かれています:
+```php
+  '15charsCaseSensitiveUserId' => array('pub-token' => 'userPublicToken'),
+```
+
+**'t=userPublicToken' 形式のURLを使用することをお勧めします。**  
+'u=15charsCaseSensitiveUserId' 形式のURLは は恒久的なので、変えることができません。  
+従って、URLが漏れた際にカレンダーを秘密にしたまま、サービスを継続できません。
 
 ## <a name="salesforce-sharing-configurations"> Salesforce 共有設定
 このアプリのために、**専用ユーザー**の作成と共有設定、アクセス制限設定の実施を推奨します。  
