@@ -110,8 +110,7 @@ You can allow accessing the app root path by setting 'OWNERID'.
 https://theapp.your.domain.com/
 ```
 It is permanent url and you can't change it.  
-By leaking of the url, you can't continue the service  
-if you want to keep the calendar secret.
+By leaking of the url, you can't continue the service if you want to keep the calendar secret.
 
 ## White-List
 
@@ -138,6 +137,8 @@ You can restrict access the app to listed users.
      $ bash ./run-create-whitelist.sh
      ```
 
+  1. View whitelist.php
+
   1. and access the url
 
     ```
@@ -155,8 +156,27 @@ or
 
 **We recomend using 't=userPublicToken' style url.**  
 'u=15charsCaseSensitiveUserId' style url is permanent url and you can't change it.  
-By leaking of the url, you can't continue the service  
-if you want to keep the calendar secret.
+By leaking of the url, you can't continue the service if you want to keep the calendar secret.
+
+### Reset the user public token
+  1. Run command
+     ```bash
+     $ cd iCalForce.repo/iCalForce/icalforce
+     $ env \
+       USERNAME='alice@example.com' \
+       PASSWORD='passSecuritytoken' \
+       php update-whitelist-pubtoken.php 15charsCaseSensitiveUserId > whitelist.php.new
+     ```
+
+  1. Replace the whitelist
+     ```bash
+     $ mv whitelist.php whitelist.php.old
+     $ mv whitelist.php.new whitelist.php
+     ```
+
+  1. View whitelist.php
+
+  1. and access the url
 
 ## Salesforce sharing configurations
 We recommend that you create a **dedicated account** for this app  
