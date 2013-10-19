@@ -106,7 +106,7 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
 
 安全に利用するために, 追加のセキュリティー設定をすることを推奨します。
 
-## <a name="#dont-set-ownerid"> 'OWNERID'を設定しない
+## <a name="dont-set-ownerid"> 'OWNERID'を設定しない
 
 'OWNERID'を設定すると、アプリのルートパスでアクセスさせることができます。
 ```
@@ -115,7 +115,7 @@ https://theapp.your.domain.com/
 このURLは恒久的なので、変えることができません。  
 従って、URLが漏れた際にカレンダーを秘密にしたまま、サービスを継続できません。
 
-## <a name="#white-list"> ホワイト・リスト
+## <a name="white-list"> ホワイト・リスト
 
 ### ホワイト・リストの自動生成
   1. **ユーザ**標準オブジェクトに、カスタムチェックボックス項目 **"UseICalForce__c"** を追加する。
