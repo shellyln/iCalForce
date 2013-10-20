@@ -99,7 +99,7 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
   1. urlを開く。
 
     ```
-    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    https://theapp.your.domain.com/private/secret.php?u=15charsCaseSensitiveUserId
     ```
 
 # <a name="security-enhancement"> セキュリティー強化
@@ -108,9 +108,9 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
 
 ## <a name="dont-set-ownerid"> 'OWNERID'を設定しない
 
-'OWNERID'を設定すると、アプリのルートパスでアクセスさせることができます。
+'OWNERID'を設定すると、ユーザーを特定するパラメーター無しでアクセスさせることができます。
 ```
-https://theapp.your.domain.com/
+https://theapp.your.domain.com/private/secret.php
 ```
 このURLは恒久的なので、変えることができません。  
 従って、URLが漏れた際にカレンダーを秘密にしたまま、サービスを継続できません。
@@ -122,32 +122,55 @@ https://theapp.your.domain.com/
   
   1. **UseICalForce__c** = true をアプリ利用を許可するユーザーに対して行う。
 
-  1. **iCalForce.repo/iCalForce/icalforce/run-create-whitelist.sh**を編集。  
+  1. **iCalForce.repo/iCalForce/tools/run-create-whitelist.sh**を編集。  
      USERNAME, PASSWORD を書き換える。
      ```bash
      #!/bin/bash
      env \
        USERNAME='alice@example.com' \
        PASSWORD='passSecuritytoken' \
-       php create-whitelist.php > whitelist.php
+       php create-whitelist.php > ../config/whitelist.php
      ```
 
   1. コマンドを実行する
      ```bash
-     $ cd iCalForce.repo/iCalForce/icalforce
+     $ cd iCalForce.repo/iCalForce/tools
      $ bash ./run-create-whitelist.sh
      ```
      ```
 
+  1. whitelist.php を確認する
+
   1. URLにアクセスする
 
     ```
-    https://theapp.your.domain.com?t=userPublicToken
+    https://theapp.your.domain.com/calendar.php?t=userPublicToken
     ```
 または
     ```
-    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    https://theapp.your.domain.com/private/secret.php?u=15charsCaseSensitiveUserId
     ```
+
+### public tokenをリセットする
+  1. コマンドを実行する
+     ```bash
+     $ cd iCalForce.repo/iCalForce/tools
+     $ env \
+       USERNAME='alice@example.com' \
+       PASSWORD='passSecuritytoken' \
+       php update-whitelist-pubtoken.php 15charsCaseSensitiveUserId > ../config/whitelist.php.new
+     ```
+
+  1. whitelist を入れ替える
+     ```bash
+     $ cd ../config
+     $ mv whitelist.php whitelist.php.old
+     $ mv whitelist.php.new whitelist.php
+     ```
+
+  1. whitelist.php を確認する
+
+  1. URLにアクセスする
 
 **userPublicToken** は、 **whitelist.php** に次のとおり書かれています:
 ```php

@@ -100,7 +100,7 @@ You can also import calendar to Microsoft Outlook.
   1. access the url
 
     ```
-    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    https://theapp.your.domain.com/private/secret.php?u=15charsCaseSensitiveUserId
     ```
 
 # Security Enhancement
@@ -109,9 +109,9 @@ To use safely, we recommend that you set the optional security configrations.
 
 ## Don't set 'OWNERID'.
 
-You can allow accessing the app root path by setting 'OWNERID'.
+You can allow accessing the app without the user identifier parameter by setting 'OWNERID'.
 ```
-https://theapp.your.domain.com/
+https://theapp.your.domain.com/private/secret.php
 ```
 It is permanent url and you can't change it.  
 By leaking of the url, you can't continue the service if you want to keep the calendar secret.
@@ -125,19 +125,19 @@ You can restrict access the app to listed users.
   
   1. Set **UseICalForce__c** = true if the user is permitted to use this app.
 
-  1. Edit **iCalForce.repo/iCalForce/icalforce/run-create-whitelist.sh**  
+  1. Edit **iCalForce.repo/iCalForce/tools/run-create-whitelist.sh**  
      and overwrite USERNAME, PASSWORD.
      ```bash
      #!/bin/bash
      env \
        USERNAME='alice@example.com' \
        PASSWORD='passSecuritytoken' \
-       php create-whitelist.php > whitelist.php
+       php create-whitelist.php > ../config/whitelist.php
      ```
 
   1. Run command
      ```bash
-     $ cd iCalForce.repo/iCalForce/icalforce
+     $ cd iCalForce.repo/iCalForce/tools
      $ bash ./run-create-whitelist.sh
      ```
 
@@ -146,11 +146,11 @@ You can restrict access the app to listed users.
   1. and access the url
 
     ```
-    https://theapp.your.domain.com?t=userPublicToken
+    https://theapp.your.domain.com/calendar.php?t=userPublicToken
     ```
 or
     ```
-    https://theapp.your.domain.com?u=15charsCaseSensitiveUserId
+    https://theapp.your.domain.com/private/secret.php?u=15charsCaseSensitiveUserId
     ```
 
 **userPublicToken** is written in **whitelist.php** as follows:
@@ -165,15 +165,16 @@ By leaking of the url, you can't continue the service if you want to keep the ca
 ### Reset the user public token
   1. Run command
      ```bash
-     $ cd iCalForce.repo/iCalForce/icalforce
+     $ cd iCalForce.repo/iCalForce/tools
      $ env \
        USERNAME='alice@example.com' \
        PASSWORD='passSecuritytoken' \
-       php update-whitelist-pubtoken.php 15charsCaseSensitiveUserId > whitelist.php.new
+       php update-whitelist-pubtoken.php 15charsCaseSensitiveUserId > ../config/whitelist.php.new
      ```
 
   1. Replace the whitelist
      ```bash
+     $ cd ../config
      $ mv whitelist.php whitelist.php.old
      $ mv whitelist.php.new whitelist.php
      ```
