@@ -18,6 +18,8 @@ You can also import calendar to Microsoft Outlook.
 **key features**
   * Export as iCalendar (.ics) format
   * Whitelist access restriction
+  * View your calendar URL via Force.com Canvas App
+  * View your calendar URL via OAuth SSO App
 
 ----
 ### contents
@@ -70,6 +72,24 @@ You can also import calendar to Microsoft Outlook.
             fastcgi_param USERNAME alice@example.com;
             fastcgi_param PASSWORD passSecuritytoken;
             fastcgi_param OWNERID  002i1234567Zz7P;
+        }
+        ...
+    }
+    ```
+  1. [OPTIONAL] Set server variables (for OAuth SSO App / Force.com Canvas App)
+    * **CLIENT_ID** - OAuth Client App ID provided from Salesforce
+    * **CLIENT_SECRET** - OAuth Client App Secret provided from Salesforce
+    
+    ID and Secret are get from salesforce [Setup]>[Build]>[Create]>[Apps]>[Connected Apps]>[new].
+
+    **nginx.conf (nginx)**
+    ```nginx
+    server {
+        ...
+        location ~ \.php(/|$) {
+            ...
+            fastcgi_param CLIENT_ID "Akeds9IKLSKLA33KLL432AiokIO93kddskdfcks4_uKIek32_e1.JK";
+            fastcgi_param CLIENT_SECRET "123456789012345";
         }
         ...
     }
