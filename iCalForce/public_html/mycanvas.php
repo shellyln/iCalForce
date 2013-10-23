@@ -4,15 +4,36 @@ require_once ('../vendor/icalforce/oauth.inc.php');
 require_once ('../config/whitelist.php');
 
 
-if (! isset($_COOKIE['V_04660A06A99FEC845360DA2C6D2557A3'])) {
-  header('Location: ' . $REDIRECT_URI);
-  die('Redirect');
+if (! isset($_POST['signed_request'])) {
+  header('HTTP/1.1 403 Forbidden');
+  echo 'Forbidden';
+  exit();
+}
+
+$signedRequest = $_REQUEST['signed_request'];
+
+if ($signedRequest == null) {
+  header('HTTP/1.1 403 Forbidden');
+  echo 'Forbidden';
+  exit();
 }
 
 
-$keyInfo = ICalForce\cookieMakeCryptKey();
-$cookieDec = ICalForce\cookieDecrypt($keyInfo, $_COOKIE['V_04660A06A99FEC845360DA2C6D2557A3']);
-$response = json_decode($cookieDec, true);
+//decode the signedRequest
+$sep = strpos($signedRequest, '.');
+$encodedSig = substr($signedRequest, 0, $sep);
+$encodedEnv = substr($signedRequest, $sep + 1);
+$calcedSig = base64_encode(hash_hmac("sha256", $encodedEnv, $CLIENT_SECRET, true));          
+
+if ($calcedSig != $encodedSig) {
+  header('HTTP/1.1 403 Forbidden');
+  echo 'Forbidden';
+  exit();
+}
+
+
+//decode the signed request object
+$response = json_decode(base64_decode($encodedEnv), true);
 
 
 function getUser($id, $instance_url, $access_token) {
@@ -39,10 +60,9 @@ function getUser($id, $instance_url, $access_token) {
 }
 
 
-$uid = explode('/', $response['result']['id']);
-$uid = $uid[count($uid) - 1];
+$uid = $response['context']['user']['userId'];
 $uid15 = substr($uid, 0, 15);
-//$ret = getUser($uid, $response['result']['instance_url'], $response['result']['access_token']);
+//$ret = getUser($uid, $response['client']['instanceUrl'], $response['client']['oauthToken']);
 
 
 $hasCalendar = false;
