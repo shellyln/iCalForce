@@ -25,7 +25,9 @@ You can also import calendar to Microsoft Outlook.
 ### contents
   * [Warning](#warning)
   * [Setup](#setup)
+  * [Defining Connected App on your Salesforce organization](#defining-connected-app-on-your-salesforce-organization)
   * [Security Enhancement](#security-enhancement)
+    * [Remove /private/secret.php from deploying image](#remove-privatesecretphp-from-deploying-image)
     * [Don't set 'OWNERID'](#dont-set-ownerid)
     * [White-List](#white-list)
     * [Salesforce sharing configurations](#salesforce-sharing-configurations)
@@ -37,6 +39,7 @@ You can also import calendar to Microsoft Outlook.
     And if it is suspected that url is leaked, it is necessary to change the url immediately.
 
 # Setup
+*if you want deploying to Heroku, see also [deploy-heroku.md](https://github.com/qnq777/iCalForce/blob/master/deploy-heroku.md).*
 
   1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
      ```bash
@@ -123,6 +126,31 @@ You can also import calendar to Microsoft Outlook.
     https://theapp.your.domain.com/private/secret.php?u=15charsCaseSensitiveUserId
     ```
 
+# Defining **Connected App** on your Salesforce organization
+*It is optional feature.*
+  1. [Setup]>[Build]>[Create]>[Apps]>[Connected Apps]>[New] and edit as follows:
+    * API (Enable OAuth Settings)
+      * Enable OAuth Settings: [x]
+      * Callback URL: https://theapp.your.domain.com/oa-callback.php
+      * Use digital signatures: [ ]
+      * Selected OAuth Scopes: id, api, reflesh_token
+    * Web App Settings
+      * Start URL: https://theapp.your.domain.com/my.php
+      * Enable SAML: [ ]
+    * Mobile App Settings
+      * Start URL: https://theapp.your.domain.com/my.php
+      * Pin Protect: [ ]
+    * Canvas App Settings
+      * Force.com canvas: [x]
+      * Canvas App URL: https://theapp.your.domain.com/mycanvas.php
+      * Access Method: Signed Request (POST)
+  1. [Setup]>[Administer]>[Manage Apps]>[Connected Apps]>[*your app name*] and edit as follows:
+    * [Profiles]>[Manage Profiles] and choose profiles to allow to use the app.
+  1. [Setup]>[Administer]>[Manage Apps]>[Connected Apps]>[edit (*your app name*)] and edit as follows:
+    * OAuth policies
+      * Permitted Users: Admin approved users and pre-authorized
+
+
 # Security Enhancement
 
 To use safely, we recommend that you set the optional security configrations.
@@ -135,6 +163,11 @@ https://theapp.your.domain.com/private/secret.php
 ```
 It is permanent url and you can't change it.  
 By leaking of the url, you can't continue the service if you want to keep the calendar secret.
+
+## Remove [/private/secret.php](https://github.com/qnq777/iCalForce/blob/master/iCalForce/public_html/private/secret.php) from deploying image.
+
+We don't recomend 'u=15charsCaseSensitiveUserId' style url.  
+By removing 'secret.php', you can forbid it.
 
 ## White-List
 
