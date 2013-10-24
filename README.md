@@ -26,7 +26,7 @@ You can also import calendar to Microsoft Outlook.
   * [Warning](#warning)
   * [Setup](#setup)
   * [Defining Connected App on your Salesforce organization](#defining-connected-app-on-your-salesforce-organization)
-  * [Security Enhancement](#security-enhancement)
+  * [To Increase Security](#to-increase-security)
     * [Remove /private/secret.php from deploying image](#remove-privatesecretphp-from-deploying-image)
     * [Don't set 'OWNERID'](#dont-set-ownerid)
     * [White-List](#white-list)
@@ -151,7 +151,7 @@ You can also import calendar to Microsoft Outlook.
       * Permitted Users: Admin approved users and pre-authorized
 
 
-# Security Enhancement
+# To Increase Security
 
 To use safely, we recommend that you set the optional security configrations.
 
