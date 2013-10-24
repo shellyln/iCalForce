@@ -11,7 +11,7 @@ You can also import calendar to Microsoft Outlook.
   * Google calendar
   * Outlook.com
   * Microsoft Outlook
-  * other ics readable calendar apps (e.g. iCal, tb+lightning, ...)
+  * other ics readable calendar apps (e.g. iCal, Thunderbird+Lightning, ...)
 
 **supported Salesforce/Force.com editions: EE, UE, DE**
 
