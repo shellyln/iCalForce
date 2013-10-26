@@ -210,6 +210,15 @@ or
 ```php
   '15charsCaseSensitiveUserId' => array('pub-token' => 'userPublicToken'),
 ```
+if you write a line of whitelist as follows:
+```php
+  '15charsCaseSensitiveUserId' => array('pub-token' => 'userPublicToken', 'allow-detail' => true),
+```
+and access the following url
+```
+https://theapp.your.domain.com/calendar.php?t=userPublicToken&m=1
+```
+the calendar will include events' description.
 
 **We recomend using 't=userPublicToken' style url.**  
 'u=15charsCaseSensitiveUserId' style url is permanent url and you can't change it.  

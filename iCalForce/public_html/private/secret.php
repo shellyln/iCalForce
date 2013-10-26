@@ -10,7 +10,7 @@ if (isset($_SERVER['OWNERID'])) {
   $OWNERID  = $_SERVER['OWNERID'];
 }
 
-$BASEURL = 'https://ap1.salesforce.com';
+$BASEURL = 'https://ap.salesforce.com';
 if (isset($_SERVER['BASEURL'])) {
   $BASEURL  = $_SERVER['BASEURL'];
 }
@@ -19,6 +19,8 @@ if (isset($_SERVER['BASEURL'])) {
 require_once ('../../config/whitelist.php');
 require_once ('../../vendor/icalforce/icalendar.inc.php');
 
+
+$showDetail = false;
 
 if (isset($_GET['t'])) {
   if (! isset($ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1)) {
@@ -31,6 +33,10 @@ if (isset($_GET['t'])) {
   foreach ($ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1 as $uid => $rec) {
     if ($_GET['t'] == $rec['pub-token']) {
       $OWNERID = $uid;
+
+      if (isset($_GET['m']) && $_GET['m'] == 1 && isset($rec['allow-detail']) && $rec['allow-detail'] == true) {
+        $showDetail = true;
+      }
       break;
     }
   }
@@ -57,8 +63,14 @@ if (isset($_GET['t'])) {
       echo 'disallowed';
       exit();
     }
+    
+    $rec = $ICALFORCEWHITELIST_19b70db3_f172_40eb_910c_f356365166c1[$OWNERID];
+
+    if (isset($_GET['m']) && $_GET['m'] == 1 && isset($rec['allow-detail']) && $rec['allow-detail'] == true) {
+      $showDetail = true;
+    }
   }
 }
 
 
-printSfiCalendar($USERNAME, $PASSWORD, $OWNERID, $BASEURL);
+printSfiCalendar($USERNAME, $PASSWORD, $OWNERID, $BASEURL, $showDetail);

@@ -4,7 +4,7 @@
 define('SOAP_CLIENT_BASEDIR', dirname(__FILE__) . '/../soapclient.repo/soapclient');
 require_once (SOAP_CLIENT_BASEDIR.'/SforceEnterpriseClient.php');
 
-function printSfiCalendar($userName, $pass, $ownerId, $baseUrl) {
+function printSfiCalendar($userName, $pass, $ownerId, $baseUrl, $showDetail) {
   function calguid($str){
     $charid = strtoupper(md5($str));
     $hyphen = chr(45); // "-"
@@ -30,6 +30,18 @@ function printSfiCalendar($userName, $pass, $ownerId, $baseUrl) {
     $remote_dt = new DateTime("now", $remote_dtz);
     $offset = $origin_dtz->getOffset($origin_dt) - $remote_dtz->getOffset($remote_dt);
     return $offset;
+  }
+  
+  function escapeText($s) {
+    $v = str_replace("\r\n", "\n", $s);
+    $v = str_replace("\r", "\n", $s);
+    $v = str_replace("\t", " ", $v);
+    $v = str_replace("\v", " ", $v);
+    $v = str_replace("\\", "\\\\", $v);
+    $v = str_replace("\n", "\\n", $v);
+    $v = str_replace(";", "\;", $v);
+    $v = str_replace(",", "\,", $v);
+    return $v;
   }
 
   try {
@@ -61,7 +73,8 @@ SELECT
  , ActivityDateTime
  , StartDateTime
  , EndDateTime
- , Location
+ , Location '
+. ($showDetail ? ' , Description ' : '') . '
  , IsAllDayEvent
  , OwnerId
 from Event
@@ -93,8 +106,8 @@ order by StartDateTime limit 10000';
          "TZOFFSETTO:", sprintf('%1$+05d', $tzoffset), "\r\n",
          "END:STANDARD\r\n",
          "END:VTIMEZONE\r\n",
-         "X-WR-CALNAME:", $users->records[0]->Name,"'s calendar\r\n",
-         "X-WR-CALDESC:Celebrations of various revolutionary activities.\r\n",
+         "X-WR-CALNAME:", escapeText($users->records[0]->Name),"'s calendar\r\n",
+         "X-WR-CALDESC:", escapeText($users->records[0]->Name),"'s calendar\r\n",
          "X-WR-RELCALID:", $calGuid, "\r\n",
          "X-WR-TIMEZONE:Asia/Tokyo\r\n";
     
@@ -112,9 +125,11 @@ order by StartDateTime limit 10000';
                ''),
            "DTSTART:", gmdate($dateFmt, strtotime($record->StartDateTime)), "\r\n",
            "DTEND:"  , gmdate($dateFmt, strtotime($record->EndDateTime) + $timeAdd), "\r\n",
-           "SUMMARY:", $record->Subject, "\r\n",
-           "DESCRIPTION:", $baseUrl, "/", $record->Id, "\r\n",
-           "LOCATION:", (isset($record->Location) ? $record->Location : ''), "\r\n",
+           "SUMMARY:", escapeText($record->Subject), "\r\n",
+           "DESCRIPTION:", $baseUrl, "/", $record->Id,
+               ($showDetail && isset($record->Description) ?
+                   '\n\n' . escapeText($record->Description) : ''), "\r\n",
+           "LOCATION:", (isset($record->Location) ? escapeText($record->Location) : ''), "\r\n",
            "END:VEVENT\r\n";
     }
     
