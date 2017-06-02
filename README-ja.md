@@ -1,7 +1,7 @@
 iCalForce
 =========
 
-**注意:このドキュメントは、[README.md](https://github.com/qnq777/iCalForce/blob/master/README.md)の翻訳版です。  
+**注意:このドキュメントは、[README.md](https://github.com/shellyln/iCalForce/blob/master/README.md)の翻訳版です。  
 このドキュメントは、最新ではない可能性があります。**
 
 Salesforce/Force.com用の、iCalendar (.ics) エクスポート・アプリです。  
@@ -35,11 +35,11 @@ Microsoft Outlookのカレンダーに取り込むこともできます。
 
 # <a name="setup"> 導入方法
 
-  1. iCalForce を https://github.com/qnq777/iCalForce.git からダウンロードする。
+  1. iCalForce を https://github.com/shellyln/iCalForce.git からダウンロードする。
      ```bash
-     $ git clone https://github.com/qnq777/iCalForce.git iCalForce.repo
+     $ git clone https://github.com/shellyln/iCalForce.git iCalForce.repo
      ```
-     または、[Zipで](https://github.com/qnq777/iCalForce/archive/master.zip) ダウンロードする。
+     または、[Zipで](https://github.com/shellyln/iCalForce/archive/master.zip) ダウンロードする。
 
   1. セットアップのスクリプトを実行する。
      ```bash
