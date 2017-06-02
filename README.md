@@ -39,13 +39,13 @@ You can also import calendar to Microsoft Outlook.
     And if it is suspected that url is leaked, it is necessary to change the url immediately.
 
 # Setup
-*if you want deploying to Heroku, see also [deploy-heroku.md](https://github.com/qnq777/iCalForce/blob/master/deploy-heroku.md).*
+*if you want deploying to Heroku, see also [deploy-heroku.md](https://github.com/shellyln/iCalForce/blob/master/deploy-heroku.md).*
 
-  1. Download iCalForce from https://github.com/qnq777/iCalForce.git .
+  1. Download iCalForce from https://github.com/shellyln/iCalForce.git .
      ```bash
-     $ git clone https://github.com/qnq777/iCalForce.git iCalForce.repo
+     $ git clone https://github.com/shellyln/iCalForce.git iCalForce.repo
      ```
-     or download Zip file from [here](https://github.com/qnq777/iCalForce/archive/master.zip).
+     or download Zip file from [here](https://github.com/shellyln/iCalForce/archive/master.zip).
 
   1. Run setup script.
      ```bash
@@ -164,7 +164,7 @@ https://theapp.your.domain.com/private/secret.php
 It is permanent url and you can't change it.  
 By leaking of the url, you can't continue the service if you want to keep the calendar secret.
 
-## Remove [/private/secret.php](https://github.com/qnq777/iCalForce/blob/master/iCalForce/public_html/private/secret.php) from deploying image.
+## Remove [/private/secret.php](https://github.com/shellyln/iCalForce/blob/master/iCalForce/public_html/private/secret.php) from deploying image.
 
 We don't recomend 'u=15charsCaseSensitiveUserId' style url.  
 By removing 'secret.php', you can forbid it.
